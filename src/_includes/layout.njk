@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{{ title or author.name }}</title>
-  <link rel="stylesheet" href="/assets/styles/main.css">
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/styles/main.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet" />
 </head>
 <body>
   {% include "header.njk" %}
@@ -13,7 +13,9 @@
     {{ content | safe }}
   </main>
   {% include "footer.njk" %}
+  {% include "terminal.njk" %}
   <script src="/assets/scripts/main.js"></script>
+  <script src="/assets/scripts/terminal.js"></script>
+  <script src="/assets/scripts/konami.js"></script>
 </body>
 </html>
-

@@ -1,17 +1,18 @@
 <header class="hero">
-  <div class="boot-sequence">
-    <p>READY.</p>
-    <p class="typing">LOAD "{{ author.name }}",8,1</p>
-    <p class="typing">RUN</p>
+  <div class="boot-sequence" id="boot-sequence">
+    <p class="boot-line">*** VIC-20 READY ***</p>
+    <p class="boot-line typing">LOAD "{{ author.name }}",8,1</p>
+    <p class="boot-line typing">RUN</p>
   </div>
   <h1>{{ author.name }}</h1>
-  <p>{{ author.tagline }}</p>
+  <p class="tagline">Exploring code, crypto, and creativity since 1980-something.</p>
   <nav>
-    <a href="#about">ABOUT</a>
-    <a href="#experience">EXPERIENCE</a>
-    <a href="#skills">SKILLS</a>
+    <a href="#about">MY STORY</a>
+    <a href="#experience">PAST ADVENTURES</a>
+    <a href="#skills">WHAT I PLAY WITH</a>
     <a href="#resume">RESUME</a>
-    <a href="#contact">CONTACT</a>
+    <a href="#contact">LET'S CONNECT</a>
+    <button id="theme-toggle" aria-label="Toggle Light/Dark Theme">🌗</button>
+    <button id="terminal-toggle" aria-label="Open Terminal">>_</button>
   </nav>
 </header>
-
