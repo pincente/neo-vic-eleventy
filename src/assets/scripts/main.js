@@ -1,69 +1,138 @@
-// Theme toggle
-const themeToggleBtn = document.getElementById('theme-toggle');
-const htmlEl = document.documentElement;
+document.addEventListener('DOMContentLoaded', () => {
+  /* ===========================
+   * Theme Toggle
+   * =========================== */
+  const themeToggleBtn = document.getElementById('theme-toggle');
+  const htmlEl = document.documentElement;
 
-function setTheme(theme) {
-  htmlEl.setAttribute('data-theme', theme);
-  localStorage.setItem('theme', theme);
-}
+  function setTheme(theme) {
+    htmlEl.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+  }
 
-themeToggleBtn.addEventListener('click', () => {
-  const current = htmlEl.getAttribute('data-theme');
-  const next = current === 'dark' ? 'light' : 'dark';
-  setTheme(next);
-});
+  // init theme
+  const savedTheme = localStorage.getItem('theme');
+  setTheme(savedTheme ? savedTheme : 'dark');
 
-const savedTheme = localStorage.getItem('theme');
-if(savedTheme) {
-  setTheme(savedTheme);
-} else {
-  setTheme('dark');
-}
+  if (themeToggleBtn) {
+    themeToggleBtn.addEventListener('click', () => {
+      const current = htmlEl.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      setTheme(next);
+    });
+  }
 
-// Window controls (minimize & close)
-document.querySelectorAll('.btn-close').forEach(btn => {
-  btn.addEventListener('click', e => {
-    const win = e.target.closest('.window');
-    win.style.display = 'none';
-  });
-});
-document.querySelectorAll('.btn-min').forEach(btn => {
-  btn.addEventListener('click', e => {
-    const win = e.target.closest('.window');
-    if(win.style.height === '30px') {
-      win.style.height = '';
-      win.querySelector('.window-content').style.display = '';
+  /* ===========================
+   * Window Management
+   * =========================== */
+  const windows = Array.from(document.querySelectorAll('.window'));
+  const dockMenu = document.getElementById('window-menu');
+  const dockContainer = document.querySelector('.dock');
+
+  let zIndexCounter = 100; // baseline
+
+  function updateDockVisibility() {
+    if (dockMenu.children.length === 0) {
+      dockContainer.classList.add('hidden');
     } else {
-      win.style.height = '30px';
-      win.querySelector('.window-content').style.display = 'none';
+      dockContainer.classList.remove('hidden');
+    }
+  }
+
+  // helper: bring window to front
+  function bringToFront(win) {
+    zIndexCounter++;
+    win.style.zIndex = zIndexCounter;
+  }
+
+  // helper: create dock item (called when window closed)
+  function addToDock(win) {
+    const titleEl = win.querySelector('.title');
+    const label = titleEl ? titleEl.innerText.trim() : win.id || 'Window';
+    const existing = dockMenu.querySelector(`[data-target="${win.id}"]`);
+    if (existing) {
+      updateDockVisibility();
+      return;
+    }
+
+    const li = document.createElement('li');
+    li.textContent = label;
+    li.setAttribute('data-target', win.id);
+    li.setAttribute('role', 'menuitem');
+    li.tabIndex = 0;
+
+    function restore() {
+      win.style.display = 'block';
+      win.style.height = '';
+      const content = win.querySelector('.window-content');
+      if (content) content.style.display = '';
+      bringToFront(win);
+      li.remove();
+      updateDockVisibility();
+    }
+
+    li.addEventListener('click', restore);
+    li.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        restore();
+      }
+    });
+
+    dockMenu.appendChild(li);
+    updateDockVisibility();
+  }
+
+  // attach events to each window
+  windows.forEach(win => {
+    win.addEventListener('mousedown', () => bringToFront(win));
+
+    // close button
+    const closeBtn = win.querySelector('.btn-close');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', e => {
+        e.stopPropagation();
+        win.style.display = 'none';
+        addToDock(win);
+      });
+    }
+
+    // minimize button
+    const minBtn = win.querySelector('.btn-min');
+    if (minBtn) {
+      minBtn.addEventListener('click', e => {
+        e.stopPropagation();
+        const content = win.querySelector('.window-content');
+        if (!content) return;
+        const isHidden = content.style.display === 'none';
+        if (isHidden) {
+          // restore
+          win.style.height = '';
+          content.style.display = '';
+        } else {
+          // minimize
+          win.style.height = '30px';
+          content.style.display = 'none';
+        }
+      });
     }
   });
-});
 
-// Terminal toggle
-const terminal = document.getElementById('terminal');
-const terminalToggle = document.getElementById('terminal-toggle');
-const terminalClose = document.getElementById('terminal-close');
+  // start hidden (no closed windows)
+  updateDockVisibility();
 
-terminalToggle.addEventListener('click', () => {
-  terminal.classList.toggle('hidden');
-  terminal.setAttribute('aria-hidden', terminal.classList.contains('hidden'));
-  if(!terminal.classList.contains('hidden')) {
-    document.getElementById('terminal-input').focus();
+t.add('hidden');
+    terminal.setAttribute('aria-hidden', 'true');
   }
-});
 
-terminalClose.addEventListener('click', () => {
-  terminal.classList.add('hidden');
-  terminal.setAttribute('aria-hidden', 'true');
-});
+  if (terminalToggle) terminalToggle.addEventListener('click', openTerminal);
+  if (terminalClose) terminalClose.addEventListener('click', closeTerminal);
 
-// Boot sequence animation: remove after 3.5 seconds
-window.addEventListener('DOMContentLoaded', () => {
+  /* ===========================
+   * Boot Sequence Hide
+   * =========================== */
   setTimeout(() => {
     const boot = document.getElementById('boot-sequence');
-    if (boot) {
-      boot.style.display = 'none';
-    }
+    if (boot) boot.style.display = 'none';
   }, 3500);
 });

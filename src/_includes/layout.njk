@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{{ title or author.name }}</title>
-  <link rel="stylesheet" href="{{ '/assets/styles/main.css' | url }}">
+  <link rel="stylesheet" href="{{ '/assets/styles/main.css' | url }}" />
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet" />
 </head>
 <body>
@@ -14,6 +14,14 @@
   </main>
   {% include "footer.njk" %}
   {% include "terminal.njk" %}
+
+  <!-- Retro Dock for restoring closed windows -->
+  <!-- Start hidden to avoid flash-of-dock -->
+  <div class="dock hidden" role="navigation" aria-label="Window restore menu">
+    <span class="dock-label">WINDOWS MENU:</span>
+    <ul id="window-menu" class="dock-list" role="menubar"></ul>
+  </div>
+
   <script src="{{ '/assets/scripts/main.js' | url }}"></script>
   <script src="{{ '/assets/scripts/terminal.js' | url }}"></script>
   <script src="{{ '/assets/scripts/konami.js' | url }}"></script>
