@@ -7,6 +7,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # ✅ allows gh-pages branch push
+
 
     steps:
       - name: Checkout repository
