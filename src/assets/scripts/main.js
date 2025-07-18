@@ -121,7 +121,21 @@ document.addEventListener('DOMContentLoaded', () => {
   // start hidden (no closed windows)
   updateDockVisibility();
 
-t.add('hidden');
+  /* ===========================
+   * Terminal Toggle
+   * =========================== */
+  const terminal = document.getElementById('terminal');
+  const terminalToggle = document.getElementById('terminal-toggle');
+  const terminalClose = document.getElementById('terminal-close');
+
+  function openTerminal() {
+    terminal.classList.remove('hidden');
+    terminal.setAttribute('aria-hidden', 'false');
+    const inp = document.getElementById('terminal-input');
+    if (inp) inp.focus();
+  }
+  function closeTerminal() {
+    terminal.classList.add('hidden');
     terminal.setAttribute('aria-hidden', 'true');
   }
 
