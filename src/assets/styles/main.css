@@ -1,0 +1,103 @@
+/* Base Colors */
+:root {
+  --vic-bg: #041e42;
+  --vic-text: #85d4dc;
+  --vic-accent: #85d4dc;
+  --vic-border: #ffb008;
+  --font-pixel: 'Press Start 2P', monospace;
+  --font-body: 'IBM Plex Mono', monospace;
+}
+
+body {
+  background-color: var(--vic-bg);
+  color: var(--vic-text);
+  font-family: var(--font-body);
+  margin: 0;
+  padding: 0;
+}
+
+.hero {
+  text-align: center;
+  padding: 2rem;
+  border-bottom: 2px solid var(--vic-border);
+}
+.hero h1 {
+  font-family: var(--font-pixel);
+  font-size: 1.8rem;
+  color: var(--vic-accent);
+}
+.hero nav a {
+  color: var(--vic-accent);
+  margin: 0 0.5rem;
+  text-decoration: none;
+}
+
+.window {
+  background: #000;
+  border: 4px solid var(--vic-border);
+  margin: 2rem auto;
+  padding: 0;
+  max-width: 900px;
+  box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.5);
+  position: relative;
+  transition: transform 0.2s ease;
+}
+.window-content {
+  padding: 1rem;
+}
+
+.titlebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--vic-border);
+  color: #000;
+  font-family: var(--font-pixel);
+  font-size: 0.8rem;
+  padding: 0.25rem 0.5rem;
+  border-bottom: 2px solid #000;
+}
+.titlebar .led {
+  width: 12px;
+  height: 12px;
+  background-color: var(--vic-accent);
+  border-radius: 50%;
+  margin-right: 8px;
+  box-shadow: 0 0 6px var(--vic-accent);
+}
+.titlebar .title { flex-grow: 1; text-align: left; }
+.window-controls button {
+  background: #000;
+  color: var(--vic-accent);
+  border: 2px solid var(--vic-accent);
+  font-family: var(--font-pixel);
+  font-size: 0.7rem;
+  margin-left: 4px;
+  cursor: pointer;
+}
+.window-controls button:hover { background: var(--vic-accent); color: #000; }
+
+/* Desktop layered offset */
+@media (min-width: 1024px) {
+  .window:nth-child(1) { transform: translate(0, 0); }
+  .window:nth-child(2) { transform: translate(20px, -20px); }
+  .window:nth-child(3) { transform: translate(40px, -40px); }
+  .window:nth-child(4) { transform: translate(60px, -60px); }
+  .window:nth-child(5) { transform: translate(80px, -80px); }
+  .window:hover { transform: scale(1.02); z-index: 999; }
+}
+
+.typing {
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 0.15em solid var(--vic-accent);
+  animation: typing 3s steps(20, end), blink 0.7s infinite;
+}
+@keyframes typing { from { width: 0 } to { width: 100% } }
+@keyframes blink { 50% { border-color: transparent } }
+
+@media (max-width: 768px) {
+  .window { margin: 1rem; transform: none !important; }
+  .hero h1 { font-size: 1.2rem; }
+}
+

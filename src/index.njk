@@ -1,0 +1,91 @@
+---
+layout: layout.njk
+title: "Paul Pincente"
+---
+
+<section id="about" class="window">
+  <div class="titlebar">
+    <span class="led"></span>
+    <span class="title">ABOUT ME</span>
+    <div class="window-controls">
+      <button class="btn-close" aria-label="Close">✖</button>
+      <button class="btn-min" aria-label="Minimize">—</button>
+    </div>
+  </div>
+  <div class="window-content">
+    <p>{{ author.bio }}</p>
+  </div>
+</section>
+
+<section id="skills" class="window">
+  <div class="titlebar">
+    <span class="led"></span>
+    <span class="title">SKILLS</span>
+    <div class="window-controls">
+      <button class="btn-close" aria-label="Close">✖</button>
+      <button class="btn-min" aria-label="Minimize">—</button>
+    </div>
+  </div>
+  <div class="window-content">
+    <ul>
+      {% for skill in skills %}
+        <li>{{ skill }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+
+<section id="experience" class="window">
+  <div class="titlebar">
+    <span class="led"></span>
+    <span class="title">EXPERIENCE</span>
+    <div class="window-controls">
+      <button class="btn-close" aria-label="Close">✖</button>
+      <button class="btn-min" aria-label="Minimize">—</button>
+    </div>
+  </div>
+  <div class="window-content">
+    {% for job in experience %}
+      <div class="job">
+        <h3>{{ job.title }} | {{ job.company }}</h3>
+        <p><strong>{{ job.dates }}</strong></p>
+        <ul>
+          {% for bullet in job.highlights %}
+            <li>{{ bullet }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+<section id="resume" class="window">
+  <div class="titlebar">
+    <span class="led"></span>
+    <span class="title">RESUME</span>
+    <div class="window-controls">
+      <button class="btn-close" aria-label="Close">✖</button>
+      <button class="btn-min" aria-label="Minimize">—</button>
+    </div>
+  </div>
+  <div class="window-content">
+    <iframe src="/assets/resume.pdf" width="100%" height="600"></iframe>
+    <a href="/assets/resume.pdf" download>Download Resume</a>
+  </div>
+</section>
+
+<section id="contact" class="window">
+  <div class="titlebar">
+    <span class="led"></span>
+    <span class="title">CONTACT</span>
+    <div class="window-controls">
+      <button class="btn-close" aria-label="Close">✖</button>
+      <button class="btn-min" aria-label="Minimize">—</button>
+    </div>
+  </div>
+  <div class="window-content">
+    <p>Email: <a href="mailto:{{ author.email }}">{{ author.email }}</a></p>
+    <p>LinkedIn: <a href="{{ author.linkedin }}">{{ author.linkedin }}</a></p>
+  </div>
+</section>
+

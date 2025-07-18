@@ -1,0 +1,334 @@
+=== FILE: package.json ===
+{
+  "name": "neo-vic-eleventy",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "eleventy --serve",
+    "build": "eleventy"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^3.0.0"
+  }
+}
+
+=== FILE: .eleventy.js ===
+module.exports = function(eleventyConfig) {
+  eleventyConfig.addPassthroughCopy("src/assets");
+  return {
+    dir: {
+      input: "src",
+      includes: "_includes",
+      data: "_data",
+      output: "output"
+    },
+    htmlTemplateEngine: "njk"
+  };
+};
+
+=== FILE: src/_includes/layout.njk ===
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ title or author.name }}</title>
+  <link rel="stylesheet" href="/assets/styles/main.css">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  {% include "header.njk" %}
+  <main>
+    {{ content | safe }}
+  </main>
+  {% include "footer.njk" %}
+  <script src="/assets/scripts/main.js"></script>
+</body>
+</html>
+
+=== FILE: src/_includes/header.njk ===
+<header class="hero">
+  <div class="boot-sequence">
+    <p>READY.</p>
+    <p class="typing">LOAD "{{ author.name }}",8,1</p>
+    <p class="typing">RUN</p>
+  </div>
+  <h1>{{ author.name }}</h1>
+  <p>{{ author.tagline }}</p>
+  <nav>
+    <a href="#about">ABOUT</a>
+    <a href="#experience">EXPERIENCE</a>
+    <a href="#skills">SKILLS</a>
+    <a href="#resume">RESUME</a>
+    <a href="#contact">CONTACT</a>
+  </nav>
+</header>
+
+=== FILE: src/_includes/footer.njk ===
+<footer>
+  <p>© {{ "now" | date("%Y") }} {{ author.name }} | LOAD"*",8,1</p>
+</footer>
+
+=== FILE: src/index.njk ===
+---
+layout: layout.njk
+title: "Paul Pincente"
+---
+
+<section id="about" class="window">
+  <div class="titlebar">
+    <span class="led"></span>
+    <span class="title">ABOUT ME</span>
+    <div class="window-controls">
+      <button class="btn-close" aria-label="Close">✖</button>
+      <button class="btn-min" aria-label="Minimize">—</button>
+    </div>
+  </div>
+  <div class="window-content">
+    <p>{{ author.bio }}</p>
+  </div>
+</section>
+
+<section id="skills" class="window">
+  <div class="titlebar">
+    <span class="led"></span>
+    <span class="title">SKILLS</span>
+    <div class="window-controls">
+      <button class="btn-close" aria-label="Close">✖</button>
+      <button class="btn-min" aria-label="Minimize">—</button>
+    </div>
+  </div>
+  <div class="window-content">
+    <ul>
+      {% for skill in skills %}
+        <li>{{ skill }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+
+<section id="experience" class="window">
+  <div class="titlebar">
+    <span class="led"></span>
+    <span class="title">EXPERIENCE</span>
+    <div class="window-controls">
+      <button class="btn-close" aria-label="Close">✖</button>
+      <button class="btn-min" aria-label="Minimize">—</button>
+    </div>
+  </div>
+  <div class="window-content">
+    {% for job in experience %}
+      <div class="job">
+        <h3>{{ job.title }} | {{ job.company }}</h3>
+        <p><strong>{{ job.dates }}</strong></p>
+        <ul>
+          {% for bullet in job.highlights %}
+            <li>{{ bullet }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+<section id="resume" class="window">
+  <div class="titlebar">
+    <span class="led"></span>
+    <span class="title">RESUME</span>
+    <div class="window-controls">
+      <button class="btn-close" aria-label="Close">✖</button>
+      <button class="btn-min" aria-label="Minimize">—</button>
+    </div>
+  </div>
+  <div class="window-content">
+    <iframe src="/assets/resume.pdf" width="100%" height="600"></iframe>
+    <a href="/assets/resume.pdf" download>Download Resume</a>
+  </div>
+</section>
+
+<section id="contact" class="window">
+  <div class="titlebar">
+    <span class="led"></span>
+    <span class="title">CONTACT</span>
+    <div class="window-controls">
+      <button class="btn-close" aria-label="Close">✖</button>
+      <button class="btn-min" aria-label="Minimize">—</button>
+    </div>
+  </div>
+  <div class="window-content">
+    <p>Email: <a href="mailto:{{ author.email }}">{{ author.email }}</a></p>
+    <p>LinkedIn: <a href="{{ author.linkedin }}">{{ author.linkedin }}</a></p>
+  </div>
+</section>
+
+=== FILE: src/_data/author.json ===
+{
+  "name": "Paul Pincente",
+  "tagline": "Digital Asset Leader | Blockchain & AI Strategist",
+  "bio": "Accomplished leader at the intersection of blockchain, digital finance, and AI. Proven track record in building staking infrastructure, scaling products, and delivering innovative ETFs.",
+  "email": "pincente@outlook.com",
+  "linkedin": "https://www.linkedin.com/in/ppincente"
+}
+
+=== FILE: src/_data/skills.json ===
+["Product Strategy", "Team Leadership", "Blockchain Infrastructure", "Staking Systems", "Python", "Solidity", "Kubernetes", "NetSec", "DevOps"]
+
+=== FILE: src/_data/experience.json ===
+[
+  {"title":"Vice President, Digital Assets Products","company":"Purpose Investments","dates":"June 2024 – Present","highlights":["Launched 4 new crypto ETFs, adding +$100M AUM","Built first internal ETH and SOL staking infrastructure for traditional asset managers in Canada","Directed scaling of institutional-grade validator infrastructure"]},
+  {"title":"Blockchain Infrastructure & Analytics Architect","company":"Ether Capital Corporation","dates":"March 2022 – June 2024","highlights":["Built top-performing Ethereum validators in top 20% performance percentile","Developed internal staking analytics and business intelligence platform"]},
+  {"title":"Co-Founder / CEO","company":"Growratio Inc","dates":"May 2015 – Jan 2022","highlights":["Created IoT horticultural platform in partnership with Microsoft","Patented products & services for enterprise clients across Canada"]}
+]
+
+=== FILE: src/assets/styles/main.css ===
+/* Base Colors */
+:root {
+  --vic-bg: #041e42;
+  --vic-text: #85d4dc;
+  --vic-accent: #85d4dc;
+  --vic-border: #ffb008;
+  --font-pixel: 'Press Start 2P', monospace;
+  --font-body: 'IBM Plex Mono', monospace;
+}
+
+body {
+  background-color: var(--vic-bg);
+  color: var(--vic-text);
+  font-family: var(--font-body);
+  margin: 0;
+  padding: 0;
+}
+
+.hero {
+  text-align: center;
+  padding: 2rem;
+  border-bottom: 2px solid var(--vic-border);
+}
+.hero h1 {
+  font-family: var(--font-pixel);
+  font-size: 1.8rem;
+  color: var(--vic-accent);
+}
+.hero nav a {
+  color: var(--vic-accent);
+  margin: 0 0.5rem;
+  text-decoration: none;
+}
+
+.window {
+  background: #000;
+  border: 4px solid var(--vic-border);
+  margin: 2rem auto;
+  padding: 0;
+  max-width: 900px;
+  box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.5);
+  position: relative;
+  transition: transform 0.2s ease;
+}
+.window-content {
+  padding: 1rem;
+}
+
+.titlebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--vic-border);
+  color: #000;
+  font-family: var(--font-pixel);
+  font-size: 0.8rem;
+  padding: 0.25rem 0.5rem;
+  border-bottom: 2px solid #000;
+}
+.titlebar .led {
+  width: 12px;
+  height: 12px;
+  background-color: var(--vic-accent);
+  border-radius: 50%;
+  margin-right: 8px;
+  box-shadow: 0 0 6px var(--vic-accent);
+}
+.titlebar .title { flex-grow: 1; text-align: left; }
+.window-controls button {
+  background: #000;
+  color: var(--vic-accent);
+  border: 2px solid var(--vic-accent);
+  font-family: var(--font-pixel);
+  font-size: 0.7rem;
+  margin-left: 4px;
+  cursor: pointer;
+}
+.window-controls button:hover { background: var(--vic-accent); color: #000; }
+
+/* Desktop layered offset */
+@media (min-width: 1024px) {
+  .window:nth-child(1) { transform: translate(0, 0); }
+  .window:nth-child(2) { transform: translate(20px, -20px); }
+  .window:nth-child(3) { transform: translate(40px, -40px); }
+  .window:nth-child(4) { transform: translate(60px, -60px); }
+  .window:nth-child(5) { transform: translate(80px, -80px); }
+  .window:hover { transform: scale(1.02); z-index: 999; }
+}
+
+.typing {
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 0.15em solid var(--vic-accent);
+  animation: typing 3s steps(20, end), blink 0.7s infinite;
+}
+@keyframes typing { from { width: 0 } to { width: 100% } }
+@keyframes blink { 50% { border-color: transparent } }
+
+@media (max-width: 768px) {
+  .window { margin: 1rem; transform: none !important; }
+  .hero h1 { font-size: 1.2rem; }
+}
+
+=== FILE: src/assets/scripts/main.js ===
+// Bring-to-front windows on click
+const windows = document.querySelectorAll('.window');
+let zIndex = 10;
+windows.forEach(win => {
+  win.addEventListener('click', () => {
+    zIndex++;
+    win.style.zIndex = zIndex;
+  });
+});
+
+// Close and minimize buttons
+const closeButtons = document.querySelectorAll('.btn-close');
+const minButtons = document.querySelectorAll('.btn-min');
+
+closeButtons.forEach(btn => btn.addEventListener('click', e => {
+  e.target.closest('.window').style.display = 'none';
+}));
+
+minButtons.forEach(btn => btn.addEventListener('click', e => {
+  const content = e.target.closest('.window').querySelector('.window-content');
+  if (content.style.display === 'none') {
+    content.style.display = 'block';
+  } else {
+    content.style.display = 'none';
+  }
+}));
+```
+
+=== FILE: split-files.sh ===
+```bash
+#!/bin/bash
+input_file="neo-vic-eleventy-project.txt"
+current_file=""
+
+while IFS= read -r line; do
+  if [[ $line == ===* ]]; then
+    if [[ -n "$current_file" ]]; then
+      echo "Created $current_file"
+    fi
+    current_file=$(echo "$line" | sed 's/=== FILE: //; s/ ===//')
+    mkdir -p $(dirname "$current_file")
+    > "$current_file"
+  else
+    echo "$line" >> "$current_file"
+  fi
+done < "$input_file"
+chmod +x split-files.sh
+```
