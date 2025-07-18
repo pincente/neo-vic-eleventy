@@ -13,6 +13,7 @@ module.exports = function(eleventyConfig) {
       data: "_data",
       output: "output"
     },
-    htmlTemplateEngine: "njk"
+    htmlTemplateEngine: "njk",
+    pathPrefix: "/neo-vic-eleventy/" // ✅ CHANGE to your repo name
   };
 };

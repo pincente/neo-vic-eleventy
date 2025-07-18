@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{{ title or author.name }}</title>
-  <link rel="stylesheet" href="/assets/styles/main.css" />
+  <link rel="stylesheet" href="{{ '/assets/styles/main.css' | url }}">
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet" />
 </head>
 <body>
@@ -14,8 +14,8 @@
   </main>
   {% include "footer.njk" %}
   {% include "terminal.njk" %}
-  <script src="/assets/scripts/main.js"></script>
-  <script src="/assets/scripts/terminal.js"></script>
-  <script src="/assets/scripts/konami.js"></script>
+  <script src="{{ '/assets/scripts/main.js' | url }}"></script>
+  <script src="{{ '/assets/scripts/terminal.js' | url }}"></script>
+  <script src="{{ '/assets/scripts/konami.js' | url }}"></script>
 </body>
 </html>
